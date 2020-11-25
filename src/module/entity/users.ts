@@ -1,4 +1,5 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, OneToMany} from "typeorm";
+import { Tasks } from "./tasks";
 
 @Entity()
 export class Users {
@@ -11,4 +12,7 @@ export class Users {
 
     @Column()
     email: string;
+    
+    @OneToMany(() => Tasks, tascks => tascks.user,{cascade:true})
+    tasks?: Tasks[];
 }
