@@ -18,26 +18,23 @@ export default{
             response.send(err);
         }            
     },
-    async findByStatus(request:Request, response:Response) {
+    async findByAsc(request:Request, response:Response) {
         try{
-            const {status} = request.params;
             const tasksRepository = getRepository(Tasks);
             const tasks = await tasksRepository.createQueryBuilder("tasks")
-            .innerJoinAndSelect("tasks.user","user").where
-            ("tasks.status=status",{status: status}).getMany();  
+            .innerJoinAndSelect("tasks.user","user")
+            .orderBy("user.name,tasks.status,date(tasks.data_criacao)","ASC").getMany();  
             return response.json(tasks);
         }catch(err){
             response.send(err);
         }            
     },
-
-    async findByResponsavel(request:Request, response:Response) {
+    async findByDesc(request:Request, response:Response) {
         try{
-            const {userId} = request.params;
             const tasksRepository = getRepository(Tasks);
             const tasks = await tasksRepository.createQueryBuilder("tasks")
-            .innerJoinAndSelect("tasks.user","user").where
-            ("tasks.userId=:userId",{userId: userId}).getMany();  
+            .innerJoinAndSelect("tasks.user","user")
+            .orderBy("user.name,tasks.status,date(tasks.data_criacao)","DESC").getMany();  
             return response.json(tasks);
         }catch(err){
             response.send(err);

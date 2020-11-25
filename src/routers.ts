@@ -10,8 +10,8 @@ routers.put('/users/:id', UsersControllers.udpate)
 routers.delete('/users/:id', UsersControllers.delete)
 routers.get('/users', UsersControllers.index);
 
-routers.get('/findByStatus/:status', TasksController.findByStatus);
-routers.get('/findByResponsavel/:userId', TasksController.findByResponsavel);
+routers.get('/findByAsc', TasksController.findByAsc);
+routers.get('/findByDesc', TasksController.findByDesc);
 routers.post('/tasks', TasksController.create)
 routers.get('/tasks/:id', TasksController.show)
 routers.put('/tasks/:id', TasksController.udpate)
