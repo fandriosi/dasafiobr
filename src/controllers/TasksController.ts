@@ -30,6 +30,19 @@ export default{
             response.send(err);
         }            
     },
+
+    async findByResponsavel(request:Request, response:Response) {
+        try{
+            const {userId} = request.params;
+            const tasksRepository = getRepository(Tasks);
+            const tasks = await tasksRepository.createQueryBuilder("tasks")
+            .innerJoinAndSelect("tasks.user","user").where
+            ("tasks.userId=:userId",{userId: userId}).getMany();  
+            return response.json(tasks);
+        }catch(err){
+            response.send(err);
+        }            
+    },
     async create(request: Request,response: Response){
         try{
             const {

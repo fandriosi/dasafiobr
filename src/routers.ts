@@ -11,6 +11,7 @@ routers.delete('/users/:id', UsersControllers.delete)
 routers.get('/users', UsersControllers.index);
 
 routers.get('/findByStatus/:status', TasksController.findByStatus);
+routers.get('/findByResponsavel/:userId', TasksController.findByResponsavel);
 routers.post('/tasks', TasksController.create)
 routers.get('/tasks/:id', TasksController.show)
 routers.put('/tasks/:id', TasksController.udpate)
