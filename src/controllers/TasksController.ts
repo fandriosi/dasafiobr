@@ -15,7 +15,7 @@ export default{
             const tasks = await tasksRepository.findOneOrFail(id,{relations:["user"]});  
             return response.json(tasks);
         }catch(err){
-            response.send(err);
+            response.json(err);
         }            
     },
     async findByAsc(request:Request, response:Response) {
@@ -23,10 +23,12 @@ export default{
             const tasksRepository = getRepository(Tasks);
             const tasks = await tasksRepository.createQueryBuilder("tasks")
             .innerJoinAndSelect("tasks.user","user")
-            .orderBy("user.name,tasks.status,date(tasks.data_criacao)","ASC").getMany();  
+            .orderBy("user.name","ASC")
+            .addOrderBy("tasks.data_criacao","ASC")
+            .addOrderBy("tasks.status","ASC").getMany();  
             return response.json(tasks);
         }catch(err){
-            response.send(err);
+            response.json(err);
         }            
     },
     async findByDesc(request:Request, response:Response) {
@@ -34,10 +36,12 @@ export default{
             const tasksRepository = getRepository(Tasks);
             const tasks = await tasksRepository.createQueryBuilder("tasks")
             .innerJoinAndSelect("tasks.user","user")
-            .orderBy("user.name,tasks.status,date(tasks.data_criacao)","DESC").getMany();  
+            .orderBy("user.name","DESC")
+            .addOrderBy("tasks.data_criacao","DESC")
+            .addOrderBy("tasks.status","DESC").getMany(); 
             return response.json(tasks);
         }catch(err){
-            response.send(err);
+            response.json(err);
         }            
     },
     async create(request: Request,response: Response){
@@ -60,7 +64,7 @@ export default{
             await tasksRepository.save(tasks);
             return response.status(201).json(tasks);     
         }catch(err){
-            response.send(err);
+            response.json(err);
         }        
     },
     async delete(request: Request,response: Response){
@@ -70,7 +74,17 @@ export default{
             await tasksRepository.delete([id]);
             response.send("Deleted");
         }catch(err){
-            response.send(err);
+            response.json(err);
+        }        
+    },
+    async sum(request: Request,response: Response){
+        try{
+            const {id} = request.params;
+            const tasksRepository = getRepository(Tasks);
+            const sum =await tasksRepository.createQueryBuilder().getCount();
+            response.send("Deleted");
+        }catch(err){
+            response.json(err);
         }        
     },
     async udpate(request: Request,response: Response){
@@ -95,7 +109,7 @@ export default{
             await tasksrRepository.update({id},tasks);
             return response.status(200).json(tasks);     
         }catch(err){
-            response.send(err);
+            response.json(err);
         }        
     }
 }

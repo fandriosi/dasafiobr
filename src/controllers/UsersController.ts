@@ -15,7 +15,7 @@ export default{
             const user = await usesrRepository.findOneOrFail(id,{relations:["tasks"]});  
             return response.json(user);
         }catch(err){
-            response.send(err);
+            response.json(err);
         }            
     },
     
@@ -33,7 +33,7 @@ export default{
             await usesrRepository.save(user);
             return response.status(201).json(user);     
         }catch(err){
-            response.send(err);
+            response.json(err);
         }        
     },
     async delete(request: Request,response: Response){
@@ -44,7 +44,7 @@ export default{
             await usesrRepository.delete([id]);
             response.send("Deleted");
         }catch(err){
-            response.send(err);
+            response.json(err);
         }        
     },
     async udpate(request: Request,response: Response){
@@ -62,7 +62,7 @@ export default{
             await usesrRepository.update({id},user);
             return response.status(200).json(user);     
         }catch(err){
-            response.send(err);
+            response.json(err);
         }        
     }
 }
